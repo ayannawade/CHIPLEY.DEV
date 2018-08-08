@@ -1,0 +1,22 @@
+# file_name	input_name	description
+function_download_SRR.txt	get_srr	fastq-dump data from public server
+function_rename.txt	rename	adapting file hierarchies for fastq file storage
+function_trim_galore.txt	trim	trim fastqs using trim galore
+function_custom_concat.txt	customize	add custom sequences/annotations to reference fa and gtf files
+#
+function_bwa_index.txt	bwa_index	BWA index
+function_bwa_align.txt	bwa_align	BWA align
+function_bwa_align_trimmed.txt	bwa_align_trimmed	BWA align, look for trimmed fastqs
+#
+function_fastqc.txt	fqc	individual qc functions for fastq files
+function_rseqc_ind.txt	rqc_ind	individual qc functions for bam files
+function_rseqc_all.txt	rqc_all	merged genome coverage plot for bam files
+#
+function_macs2_broad.txt	macs2_b	MACS2 Broad peak calling
+function_macs2_narrow.txt	macs2_n	MACS2 Narrow peak calling
+function_bedtools_broad.txt	bedgen	bedtools general functions
+function_bamCoverage.txt	bam2bw	convert bam files to bw using bamCoverage
+#
+function_featureCount.txt	feature	gene counts by sample in matrix form based on features in gtf
+function_view.txt	view	range specific coverage counts
+function_mpileup.txt	pile	allele specific coverage counts

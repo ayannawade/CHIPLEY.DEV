@@ -1,0 +1,91 @@
+
+•--------------------------------------------------------------------------------------------------•
+| •----------------------------------------------------------------------------------------------• |
+| |                                                                                              | |
+| |                                                                                              | |
+| |                                          - RIPLEY -                                          | |
+| |                                                                                              | |
+| |                                                                                              | |
+| •----------------------------------------------------------------------------------------------• |
+•--------------------------------------------------------------------------------------------------•
+
+CONSTRUCTOR SHEET
+V4.01, 01/08/18
+
+This function constructor sheet will be copied into your RED (RIPLEY Execution Directory).
+
+1. Lines beginning with <COMMAND> key will be read into the constructor reader.
+2. All command lines are required.
+3. Comments can be created using the # symbol. Commented text in the <COMMAND> key will not be read.
+
+•--------------------------------------------------------------------------------------------------•
+|                                                                                                  |
+|                                      - CONSTRUCTOR PARAMS -                                      |
+|                                                                                                  |
+•--------------------------------------------------------------------------------------------------•
+
+<FUNCTION NAME> MACS2_NARROW
+
+# Function to be run automatically after this one (constructor file name)
+<AUTO CALL> 
+
+# Dependecy (afterok, afterany, etc.)
+<DEPENDENCY> afterok
+
+# Sbatch parameters
+<TIME> 12:00:00
+<PARTITION> assembly
+<CORES> 4
+<MEM PER CPU> 48G
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - INPUT CMDs -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Use the variable <INPUT FILE> in the <SCRIPT COMMAND> below
+
+# Input files can be found in this directory (ONLINE, GENOME, RAW, POST:[NAME])
+<INPUT DIR> POST:BWA_ALIGN
+
+# Type of input file into this command (URL, SRR, FASTQ, BAM, OTHER:[SUFFIX], NONE)
+<INPUT TYPE> BAM
+
+# Analyze one file per script command or all files at once (SINGLE/ALL:[SEPARATOR])
+<INPUT MULT> SINGLE
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - OUTPUT CMD -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Output files can be found in this directory (RAW, INDEX, POST:[JOB NAME])
+<OUTPUT DIR> POST:MACS2_NARROW
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - SCRIPT CMD -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Any task sheet variables may be used below.
+# The shell scripts will be created in the output directory's RED.
+# Automatically stored variables for use here:
+# <INPUT FILES FULL>, <INPUT FILES TRIMMED>, <REVERSE STRAND>, <USE FA>, <USE ANNO>, <WORKING DIR>
+
+<SCRIPT COMMAND> {
+
+export PYTHON_EGG_CACHE='/share/nordlab/users/kjulim/code/cache/'
+
+module load macs2
+module load R/3.5.0
+
+macs2 callpeak -t <INPUT FILES FULL> -c <MACS CTRL> -n <INPUT FILES TRIMMED>_withCtrl -f BAM -g mm --call-summits --bdg -q <MACS2 QVAL CUTOFF> <MACS2 BG LOCAL LAMBDA> --outdir <OUTPUT DIR>
+
+sleep 3
+
+Rscript <OUTPUT DIR>/<INPUT FILES TRIMMED>_withCtrl_model.r
+
+}

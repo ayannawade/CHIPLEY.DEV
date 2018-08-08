@@ -1,0 +1,97 @@
+
+•--------------------------------------------------------------------------------------------------•
+| •----------------------------------------------------------------------------------------------• |
+| |                                                                                              | |
+| |                                                                                              | |
+| |                                          - RIPLEY -                                          | |
+| |                                                                                              | |
+| |                                                                                              | |
+| •----------------------------------------------------------------------------------------------• |
+•--------------------------------------------------------------------------------------------------•
+
+CONSTRUCTOR SHEET
+V4.01, 01/08/18
+
+This function constructor sheet will be copied into your RED (RIPLEY Execution Directory).
+
+1. Lines beginning with <COMMAND> key will be read into the constructor reader.
+2. All command lines are required.
+3. Comments can be created using the # symbol. Commented text in the <COMMAND> key will not be read.
+
+•--------------------------------------------------------------------------------------------------•
+|                                                                                                  |
+|                                      - CONSTRUCTOR PARAMS -                                      |
+|                                                                                                  |
+•--------------------------------------------------------------------------------------------------•
+
+<FUNCTION NAME> BEDTOOLS_NARROW
+
+# Function to be run automatically after this one (constructor file name)
+<AUTO CALL> 
+
+# Dependecy (afterok, afterany, etc.)
+<DEPENDENCY> afterok
+
+# Sbatch parameters
+<TIME> 08:00:00
+<PARTITION> assembly
+<CORES> 16
+<MEM PER CPU> 24G
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - INPUT CMDs -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Use the variable <INPUT FILE> in the <SCRIPT COMMAND> below
+
+# Input files can be found in this directory (ONLINE, GENOME, RAW, POST:[NAME])
+<INPUT DIR> POST:MACS2_NARROW
+
+# Type of input file into this command (URL, SRR, FASTQ, BAM, OTHER:[SUFFIX], NONE)
+<INPUT TYPE> OTHER:.narrowPeak
+
+# Analyze one file per script command or all files at once (SINGLE/ALL:[SEPARATOR])
+<INPUT MULT> SINGLE
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - OUTPUT CMD -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Output files can be found in this directory (RAW, INDEX, POST:[JOB NAME])
+<OUTPUT DIR> POST:BEDTOOLS_NARROW
+
+
+
+•--------------------------------------------------------------------------------------------------•
+|                                          - SCRIPT CMD -                                          |
+•--------------------------------------------------------------------------------------------------•
+
+# Any task sheet variables may be used below.
+# The shell scripts will be created in the output directory's RED.
+# Automatically stored variables for use here:
+# <INPUT FILES FULL>, <INPUT FILES TRIMMED>, <REVERSE STRAND>, <USE FA>, <USE ANNO>, <WORKING DIR>
+
+<SCRIPT COMMAND> {
+
+module load bedtools2/2.27.0
+module load <SAMTOOLS MODULE>
+
+NAME="<OUTPUT DIR>/<INPUT FILES TRIMMED>"
+
+bedtools sort -k1,1 -k2,2n <INPUT FILES FULL> > "$NAME".sorted
+sleep 3
+bedtools intersect -wb -a "$NAME".sorted -b <USE BED> > "$NAME"_gene_overlap.bed
+sleep 3
+bedtools closest -a "$NAME".sorted -b <USE BED> > "$NAME"_closest_genes.bed
+
+
+
+bedtools genomecov -bg -i "$NAME".sorted -g <USE CHROM> > "$NAME"_coverage.bdg
+sleep 3
+bedtools annotate -both -i "$NAME".sorted -files <USE BED> > "$NAME"_gene_overlap.bed_annotated
+
+}
