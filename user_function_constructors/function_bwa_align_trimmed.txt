@@ -93,8 +93,6 @@ rm <OUTPUT DIR>/<INPUT FILES TRIMMED>.bam
 
 samtools index <OUTPUT DIR>/<INPUT FILES TRIMMED>.sorted.bam
 
-sleep 3
 
-bamToBed -i <OUTPUT DIR>/<INPUT FILES TRIMMED>.sorted.bam > <OUTPUT DIR>/<INPUT FILES TRIMMED>.bed
 
 }

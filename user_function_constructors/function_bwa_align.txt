@@ -81,7 +81,7 @@ module load bwa
 module load bedtools2
 module load <SAMTOOLS MODULE>
 
-bwa mem -t <BWA THREAD> <BWA INDEX FA> <INPUT FILES FULL> <REVERSE STRAND> | samtools view -q <BWA QUALITY> -Shu - > <OUTPUT DIR>/<INPUT FILES TRIMMED>.bam
+bwa mem -t <BWA THREAD> <BWA INDEX FA> <INPUT FILES FULL> | samtools view -q <BWA QUALITY> -Shu - > <OUTPUT DIR>/<INPUT FILES TRIMMED>.bam
 
 sleep 3
 
@@ -93,8 +93,6 @@ rm <OUTPUT DIR>/<INPUT FILES TRIMMED>.bam
 
 samtools index <OUTPUT DIR>/<INPUT FILES TRIMMED>.sorted.bam
 
-sleep 3
 
-bamToBed -i <OUTPUT DIR>/<INPUT FILES TRIMMED>.sorted.bam > <OUTPUT DIR>/<INPUT FILES TRIMMED>.bed
 
 }

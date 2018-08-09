@@ -77,7 +77,9 @@ This function constructor sheet will be copied into your RED (RIPLEY Execution D
 
 <SCRIPT COMMAND> {
 
+module load cutadapt/1.15
 
+export PYTHON_EGG_CACHE='/share/nordlab/users/kjulim/code/cache'
 
 perl <WORKING DIR>/user_function_constructors/function_tools/trim_galore.pl --fastqc_args "-t 16" -o <OUTPUT DIR> -q <BWA QUALITY> --illumina --stringency 1 --length 20 <INPUT FILES FULL>
 

@@ -84,10 +84,8 @@ module load deeptools/3.1.0
 
 bamCoverage --bam <INPUT FILES FULL> -o <OUTPUT DIR>/<INPUT FILES DELIM TRIMMED>.bw -of bigwig -p <BWA THREAD> -bs 10
 
-sleep 3
-
-cp <OUTPUT DIR>/<INPUT FILES DELIM TRIMMED>.bw /afs/genomecenter.ucdavis.edu/web/labs/nord/htdocs/kjulim/eirene_athena_cortex_project/
-
 
 
 }
+
+# cp <OUTPUT DIR>/<INPUT FILES DELIM TRIMMED>.bw /afs/genomecenter.ucdavis.edu/web/labs/nord/htdocs/kjulim/eirene_athena_cortex_project/
